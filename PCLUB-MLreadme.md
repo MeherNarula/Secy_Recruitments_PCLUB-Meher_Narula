@@ -84,5 +84,5 @@ Categorical Features: One-hot encode using OneHotEncoder.
 >- Found some really complex code claiming it worked without sklearn , but it sadly didnt work at all https://www.analyticsvidhya.com/blog/2021/05/tuning-the-hyperparameters-and-layers-of-neural-network-deep-learning/
 >- Imported several many libraries in the hope I will be able to replace sklearn however failed due to some pesky errors , but I leave most libraries still imported , all those packages that took hours to install in my pc , because it makes me very sad to delete them . They dont bother the code as such , just increase runtime by less than a second .
 >
->##A screenshot of the code in action 
+>## A screenshot of the code in action 
 >- ![Screenshot of running code.](RUNNING_CODE.png)
