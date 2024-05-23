@@ -83,4 +83,6 @@ Categorical Features: One-hot encode using OneHotEncoder.
 >- Tried to define preprocessing steps , trying to replace standarrdencoder and onehotencoder by dividing by decimal values and implementing some complex mathematics functions , but that gave error because of the strings and standardencoder is still easy to visualise but onehotencoder , I could not do only in pytorch and tensorflow . 
 >- Found some really complex code claiming it worked without sklearn , but it sadly didnt work at all https://www.analyticsvidhya.com/blog/2021/05/tuning-the-hyperparameters-and-layers-of-neural-network-deep-learning/
 >- Imported several many libraries in the hope I will be able to replace sklearn however failed due to some pesky errors , but I leave most libraries still imported , all those packages that took hours to install in my pc , because it makes me very sad to delete them . They dont bother the code as such , just increase runtime by less than a second .
+>
+>- A screenshot of the code in action 
 >- ![Screenshot of running code.](RUNNING_CODE.png)
