@@ -26,6 +26,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error
 from skopt.space import Real, Integer, Categorical
+from sklearn.svm import SVC
 
 def set_seed(seed=42):
     np.random.seed(seed)
@@ -166,73 +167,73 @@ def evaluate_model(model, X_test, y_test):
 evaluate_model(model, X_test, y_test)
 
 
-# Define the search space for hyperparameters
-search_space = {
-    'optimizer': Categorical(['adam', 'sgd', 'rmsprop']),
-    # 'neurons': Integer(32, 256),
-    'layers': Integer(1,4)
-}
+# # Define the search space for hyperparameters
+# search_space = {
+#     'optimizer': Categorical(['adam', 'sgd', 'rmsprop']),
+#     'neurons': Integer(32, 256),
+#     'layers': Integer(1,4)
+# }
 
-def build_model():
-    model = Sequential([
-        Flatten(input_shape=X_train.shape),
-        Dense(128, activation='relu'),
-        Dense(64, activation='relu'),
-        Dense(32, activation='relu'),
-        Dense(1, activation='sigmoid')  # Output layer
-])
+# def build_model():
+#     model = Sequential([
+#         Flatten(input_shape=X_train.shape),
+#         Dense(128, activation='relu'),
+#         Dense(64, activation='relu'),
+#         Dense(32, activation='relu'),
+#         Dense(1, activation='sigmoid')  # Output layer
+# ])
 
-    # Compile the model
-    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
-    return model
+#     # Compile the model
+#     model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
+#     return model
 
-keras_regressor = KerasRegressor(build_fn=build_model, verbose=0,layers=2)
-
-# Create the BayesSearchCV object
-bayes_cv = BayesSearchCV(
-    estimator=keras_regressor,
-    search_spaces=search_space,
-    scoring='neg_mean_squared_error',  # Use negative MSE as the scoring metric
-    cv=3,  # Number of cross-validation folds
-    n_iter=10,  # Number of parameter settings that are sampled
-    verbose=1,
-    random_state=42
-)
+# keras_regressor = KerasRegressor(build_fn=build_model, verbose=0,layers=2)
 
 
+# # Create the BayesSearchCV object
+# bayes_cv = BayesSearchCV(
+#     estimator=keras_regressor,
+#     search_spaces=search_space,
+#     scoring='neg_mean_squared_error',
+#     cv=3,
+#     n_iter=10,
+#     verbose=1,
+#     random_state=42
+# )
 
-# Fit the BayesSearchCV object to find the best hyperparameters
-bayes_cv.fit(X_train, y_train)
+# # Fit the BayesSearchCV object to find the best hyperparameters
+# bayes_cv.fit(X_train, y_train)
 
-# Get the best model and evaluate it
-best_model = bayes_cv.best_estimator_
-test_loss, test_mae = best_model.evaluate(X_test, y_test, verbose=0)
-y_pred = best_model.predict(X_test).flatten()
+# # Get the best model and evaluate it
+# best_model = bayes_cv.best_estimator_
+# test_loss, test_mae = best_model.evaluate(X_test, y_test, verbose=0)
+# y_pred = best_model.predict(X_test).flatten()
 
-# Print evaluation metrics
-print(f'Best Model Test MAE: {test_mae}')
-print(f'Best Model Test Loss: {test_loss}')
+# # Print evaluation metrics
+# print(f'Best Model Test MAE: {test_mae}')
+# print(f'Best Model Test Loss: {test_loss}')
 
-# Calculate accuracy metrics
-y_pred_classes = (y_pred > 0.5).astype(int)
-y_test_classes = (y_test > 0.5).astype(int)
-precision = precision_score(y_test_classes, y_pred_classes)
-recall = recall_score(y_test_classes, y_pred_classes)
-f1 = f1_score(y_test_classes, y_pred_classes)
-confusion = confusion_matrix(y_test_classes, y_pred_classes)
+# # Calculate accuracy metrics
+# y_pred_classes = (y_pred > 0.5).astype(int)
+# y_test_classes = (y_test > 0.5).astype(int)
+# print ('Accuracy: %d' % float((np.dot(y_test_classes,y_pred_classes.T) + np.dot(1-y_test_classes,1-y_pred_classes.T))/float(y_test_classes.size)*100) + '%')
+# precision = precision_score(y_test_classes, y_pred_classes)
+# recall = recall_score(y_test_classes, y_pred_classes)
+# f1 = f1_score(y_test_classes, y_pred_classes)
+# confusion = confusion_matrix(y_test_classes, y_pred_classes)
 
-print(f'Best Model Precision: {precision}')
-print(f'Best Model Recall: {recall}')
-print(f'Best Model F1-score: {f1}')
-print('Best Model Confusion Matrix:')
-print(confusion)
+# print(f'Best Model Precision: {precision}')
+# print(f'Best Model Recall: {recall}')
+# print(f'Best Model F1-score: {f1}')
+# print('Best Model Confusion Matrix:')
+# print(confusion)
 
-# Save the best model
-best_model.save('best_model.keras')
+# # Save the best model
+# best_model.save('best_model.keras')
 
 # Save the model
 #model.save()
-#model.save('my_model.keras')
+model.save('my_model.keras')
 
 
 

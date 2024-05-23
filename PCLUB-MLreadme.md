@@ -5,6 +5,7 @@
 
 >## **Deriving Tidal Volume**:
 >- **Research Reference**: I referred to an article from the American Thoracic Society Journals that discusses the relationship between tidal volume and the aforementioned factors. The article is accessible here.
+https://www.atsjournals.org/doi/full/10.1164/rccm.200901-0127oc
 
 >- **Tidal Volume Calculation**: Based on the formulas provided in the article, I calculated tidal volume for men and women separately:
     >- for men :  (23.79 + 0.00002066 * age_cubed) * row['LungCap(cc)'] / 100
@@ -34,7 +35,11 @@ Numeric Features: Scale using StandardScaler.
 Categorical Features: One-hot encode using OneHotEncoder.
 3. **Split the Data**: Use train_test_split to split the data into training and testing sets.
 
-### Defining the nerual network 
+### Defining,compiling,trainig the neural network 
+
+### Evaluating the neural network beofore tuning the hyperparameters 
+
+### Evaluating the neural network after finding the best fit for hyperparameters 
 
 
 # Problems I Faced
@@ -54,10 +59,27 @@ Categorical Features: One-hot encode using OneHotEncoder.
 
 - Except for this, I didn't really encounter anything very interesting that good old definitions of the functions in the imported libraries couldn't solve. However, I guess it's worth mentioning that the first response of AI tools when asked about a problem is to vectorize the X and y datasets, which makes it, needless to say, into a hydra's head and causes exponential growth in errors , because it then forces you to keep playing around with the format of the data , from numpy arrays, tensors to subsets with half the required attributes not being defined for the type the data is stored in and the functions simply rejecting the format the input data is in . All of this makes the idea of throwing your laptop on the wall very appealing , but all you have to do is .... completely start again . 
 
+### Hyperparameter tuning
+-I was convinced I wrote the correct code importing one of the best models , Bayesian , however it kept getting stuck when the function was called , the line where estimator kept giving me errors regardless of what I did and even after hours , I couldnt find the answer  . 
+- I am pretty sure the rest of the commented out code is correct as it is simply a repeat of before .
+-So I leave it commented for now , but I will keep looking for the answer even after submission 
+
 
 ># HOW I INCREASED ACCURACY 
->- I not only calculated 
+>- I calculated several metrics on which the data could be judged and random.seed ensured that I got consistent accuracy measurements 
 
 ># HOW I CONVERTED SKLEARN FUNCTIONS INTO FUNCTIONS OF PYTORCH AND TENSORFLOW 
 >### accuracy function in sklearn 
+-I replaced with its actual mathematical interpretation after research on the internet 
+ rather than accuracy_score(y_pred,y_test) , I used
+'Accuracy: %d' % float((np.dot(y_test_classes,y_pred_classes.T) + np.dot(1-y_test_classes,1-y_pred_classes.T))/float(y_test_classes.size)*100) + '%'
+
 >### train_test_split() function 
+-I tried to split the datasets in a particular ratio , but I kept getting the error ValueError: could not convert string to float: 'yes', even though I had performed categorical transform in preprocessing and it should have worked.Could not find a solution even after extensive research on the Internet and thus had to stick with the train_test_split() function . 
+- Before this I also tried several other ideas like , 
+- torch.utils.data.random_split() on the X and y datasets I converted to tensors and then for X as it was giving error in being processed as it was a mix of strings and ints , I enumerated through different columns , concatenated the strings and made it different from the numerical part , but it didnt work .
+- I tried to split the data into train and test sets using DataLoader and extract data and targets from the DataLoader datasets , but that didnt work either 
+
+>-Tried to define preprocessing steps , trying to replace standarrdencoder and onehotencoder by dividing by decimal values and implementing some complex mathematics functions , but that gave error because of the strings and standardencoder is still easy to visualise but onehotencoder , I could not do only in pytorch and tensorflow . 
+>- Found some really complex code claiming it worked without sklearn , but it sadly didnt work at all https://www.analyticsvidhya.com/blog/2021/05/tuning-the-hyperparameters-and-layers-of-neural-network-deep-learning/
+>-Imported several many libraries in the hope I will be able to replace sklearn however failed due to some pesky errors , but I leave most libraries still imported , all those packages that took hours to install in my pc , because it makes me very sad to delete them . They dont bother the code as such , just increase runtime by less than a second .
